@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>History — Business Hunter</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f59e0b'/><text y='.9em' font-size='70' x='12'>🎯</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #07070f;
+      --s1:         #0d0d1a;
+      --s2:         #131320;
+      --s3:         #1a1a2e;
+      --border:     rgba(255,255,255,0.07);
+      --amber:      #f59e0b;
+      --amber2:     #fcd34d;
+      --amber-glow: rgba(245,158,11,0.15);
+      --green:      #4ade80;
+      --red:        #f87171;
+      --purple:     #a78bfa;
+      --text:       #eeeef8;
+      --muted:      #5a5a78;
+      --muted2:     #3a3a55;
+    }
+
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+    /* NAV */
+    nav {
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: var(--bg); z-index: 100;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-weight: 700; font-size: 1rem; }
+    .logo-icon { width: 30px; height: 30px; background: var(--amber); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-link { padding: 7px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: all 0.2s; }
+    .nav-link:hover { color: var(--text); background: var(--s2); }
+    .nav-link.active { color: var(--text); background: var(--s2); }
+    .user-badge { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--s2); border: 1px solid var(--border); border-radius: 8px; }
+    .user-email { font-size: 0.8rem; color: var(--muted); max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .plan-badge { font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: var(--amber-glow); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+    .plan-badge.pro { background: rgba(167,139,250,0.15); color: var(--purple); border-color: rgba(167,139,250,0.3); }
+    .btn-signout { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 8px; padding: 6px 12px; font-size: 0.82rem; cursor: pointer; transition: all 0.2s; }
+    .btn-signout:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+    /* MAIN */
+    main { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
+    .page-header p { color: var(--muted); font-size: 0.9rem; }
+
+    /* FILTER TABS */
+    .filter-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .filter-btn { padding: 7px 16px; border-radius: 8px; font-size: 0.83rem; font-weight: 500; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+    .filter-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+    .filter-btn.active { background: var(--s2); color: var(--text); border-color: var(--amber); }
+
+    /* EMPTY STATE */
+    #empty-state {
+      text-align: center;
+      padding: 80px 24px;
+      display: none;
+    }
+    #empty-state .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    #empty-state h2 { font-size: 1.2rem; margin-bottom: 8px; }
+    #empty-state p { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+    .btn-primary-sm { display: inline-block; padding: 10px 20px; background: var(--amber); color: #07070f; border-radius: 9px; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: opacity 0.2s; }
+    .btn-primary-sm:hover { opacity: 0.88; }
+
+    /* LOADING */
+    #loading { text-align: center; padding: 60px; color: var(--muted); display: none; }
+    .spinner { width: 28px; height: 28px; border: 2px solid var(--s3); border-top-color: var(--amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* REPORT LIST */
+    #report-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .report-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .report-card:hover { border-color: rgba(255,255,255,0.12); }
+    .report-card.favorite { border-color: rgba(245,158,11,0.35); }
+
+    .report-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      cursor: pointer;
+      gap: 16px;
+    }
+    .report-card-left { flex: 1; min-width: 0; }
+    .report-topic {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .report-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .report-date { font-size: 0.78rem; color: var(--muted); }
+    .status-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .status-done { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+    .status-pending { background: rgba(245,158,11,0.1); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+    .status-error { background: rgba(248,113,113,0.1); color: var(--red); border: 1px solid rgba(248,113,113,0.25); }
+
+    .report-card-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    .btn-fav {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 6px 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      line-height: 1;
+    }
+    .btn-fav:hover { border-color: var(--amber); }
+    .btn-fav.starred { border-color: var(--amber); background: var(--amber-glow); }
+
+    .btn-expand {
+      background: var(--s2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-expand:hover { border-color: var(--amber); color: var(--amber); }
+
+    /* REPORT BODY */
+    .report-body {
+      display: none;
+      padding: 0 20px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .report-body.open { display: block; }
+    .report-body-inner {
+      padding-top: 20px;
+      line-height: 1.75;
+    }
+    .report-body-inner h1 { font-size: 1.4rem; margin-bottom: 8px; color: var(--amber); }
+    .report-body-inner h2 { font-size: 1.05rem; margin: 24px 0 8px; color: var(--amber2); border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+    .report-body-inner h3 { font-size: 0.9rem; margin: 16px 0 6px; font-weight: 600; }
+    .report-body-inner p { margin-bottom: 10px; font-size: 0.9rem; color: #d0d0e8; }
+    .report-body-inner ul, .report-body-inner ol { padding-left: 20px; margin-bottom: 10px; }
+    .report-body-inner li { margin-bottom: 4px; font-size: 0.9rem; color: #d0d0e8; }
+    .report-body-inner strong { color: var(--text); }
+    .report-body-inner code { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--s2); padding: 2px 5px; border-radius: 4px; color: var(--amber2); }
+    .report-body-inner pre { background: var(--s2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; overflow-x: auto; margin-bottom: 12px; }
+    .report-body-inner pre code { background: none; padding: 0; white-space: pre-wrap; }
+    .report-body-inner table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 0.85rem; }
+    .report-body-inner th { background: var(--s2); padding: 9px 12px; text-align: left; font-weight: 600; border: 1px solid var(--border); }
+    .report-body-inner td { padding: 8px 12px; border: 1px solid var(--border); color: #d0d0e8; }
+    .report-body-inner blockquote { border-left: 3px solid var(--amber); padding-left: 14px; color: var(--muted); margin-bottom: 12px; }
+    .report-body-inner a { color: var(--amber); }
+    .report-body-inner hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+    .no-content { color: var(--muted); font-size: 0.88rem; font-style: italic; padding: 16px 0; }
+
+    @media (max-width: 600px) {
+      nav { padding: 14px 16px; }
+      .nav-links { display: none; }
+      main { padding: 32px 16px 60px; }
+      .report-topic { font-size: 0.88rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-icon">🎯</div>
+    Business Hunter
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="/dashboard/" class="nav-link">Generate</a>
+      <a href="/dashboard/history.html" class="nav-link active">History</a>
+    </div>
+    <div class="user-badge">
+      <span class="user-email" id="user-email">...</span>
+      <span class="plan-badge" id="plan-badge">FREE</span>
+    </div>
+    <button class="btn-signout" onclick="signOut()">Sign out</button>
+  </div>
+</nav>
+
+<main>
+
+  <div class="page-header">
+    <h1>Your Research History</h1>
+    <p>All opportunity reports you've generated, sorted by newest first.</p>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-btn active" onclick="setFilter('all')">All reports</button>
+    <button class="filter-btn" onclick="setFilter('favorites')">⭐ Favorites</button>
+    <button class="filter-btn" onclick="setFilter('done')">Completed</button>
+  </div>
+
+  <div id="loading">
+    <div class="spinner"></div>
+    Loading your reports...
+  </div>
+
+  <div id="empty-state">
+    <div class="empty-icon">🔍</div>
+    <h2 id="empty-title">No reports yet</h2>
+    <p id="empty-desc">Run Pain Radar on a niche to generate your first opportunity report.</p>
+    <a href="/dashboard/" class="btn-primary-sm">Generate your first report →</a>
+  </div>
+
+  <div id="report-list"></div>
+
+</main>
+
+<script>
+  const SUPABASE_URL = 'https://praozoztocdickeldzxd.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_aTOcO__YL0wlq5qXX5-EYA_Y-KzvBrn';
+
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  let allReports = [];
+  let currentFilter = 'all';
+
+  async function init() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.href = '/dashboard/login.html'; return; }
+
+    document.getElementById('user-email').textContent = session.user.email;
+
+    const { data: profile } = await sb.from('profiles').select('plan').eq('id', session.user.id).single();
+    if (profile?.plan === 'pro') {
+      const badge = document.getElementById('plan-badge');
+      badge.textContent = 'PRO';
+      badge.classList.add('pro');
+    }
+
+    loadReports();
+  }
+
+  async function signOut() {
+    await sb.auth.signOut();
+    window.location.href = '/dashboard/login.html';
+  }
+
+  async function loadReports() {
+    show('loading');
+    const { data: { session } } = await sb.auth.getSession();
+
+    const { data: reports, error } = await sb
+      .from('reports')
+      .select('*')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false });
+
+    if (error || !reports) {
+      show('empty');
+      return;
+    }
+
+    allReports = reports;
+    renderList();
+  }
+
+  function setFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', ['all','favorites','done'][i] === filter);
+    });
+    renderList();
+  }
+
+  function renderList() {
+    let filtered = allReports;
+    if (currentFilter === 'favorites') filtered = allReports.filter(r => r.is_favorite);
+    if (currentFilter === 'done')      filtered = allReports.filter(r => r.status === 'done');
+
+    const list = document.getElementById('report-list');
+    list.innerHTML = '';
+
+    if (filtered.length === 0) {
+      const titles = { all: 'No reports yet', favorites: 'No favorites yet', done: 'No completed reports' };
+      const descs  = {
+        all: 'Run Pain Radar on a niche to generate your first opportunity report.',
+        favorites: 'Star a report to save it here for quick access.',
+        done: 'Completed reports will appear here.'
+      };
+      document.getElementById('empty-title').textContent = titles[currentFilter];
+      document.getElementById('empty-desc').textContent  = descs[currentFilter];
+      document.getElementById('empty-state').querySelector('a').style.display = currentFilter === 'all' ? 'inline-block' : 'none';
+      show('empty');
+      return;
+    }
+
+    show('list');
+    filtered.forEach(report => list.appendChild(buildCard(report)));
+  }
+
+  function buildCard(report) {
+    const card = document.createElement('div');
+    card.className = 'report-card' + (report.is_favorite ? ' favorite' : '');
+    card.id = 'card-' + report.id;
+
+    const date = new Date(report.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const statusClass = { done: 'status-done', pending: 'status-pending', running: 'status-pending', error: 'status-error' }[report.status] || 'status-pending';
+    const statusLabel = { done: 'Completed', pending: 'Pending', running: 'Generating...', error: 'Failed' }[report.status] || report.status;
+
+    card.innerHTML = `
+      <div class="report-card-header" onclick="toggleExpand('${report.id}')">
+        <div class="report-card-left">
+          <div class="report-topic">${escHtml(report.topic)}</div>
+          <div class="report-meta">
+            <span class="report-date">${date}</span>
+            <span class="status-badge ${statusClass}">${statusLabel}</span>
+          </div>
+        </div>
+        <div class="report-card-actions" onclick="event.stopPropagation()">
+          <button class="btn-fav ${report.is_favorite ? 'starred' : ''}"
+            title="${report.is_favorite ? 'Remove from favorites' : 'Add to favorites'}"
+            onclick="toggleFav('${report.id}', ${report.is_favorite})">
+            ${report.is_favorite ? '⭐' : '☆'}
+          </button>
+          ${report.status === 'done' ? `<button class="btn-expand" onclick="toggleExpand('${report.id}')">View report</button>` : ''}
+        </div>
+      </div>
+      <div class="report-body" id="body-${report.id}">
+        <div class="report-body-inner">
+          ${report.content
+            ? marked.parse(report.content)
+            : '<p class="no-content">No content available for this report.</p>'}
+        </div>
+      </div>
+    `;
+    return card;
+  }
+
+  function toggleExpand(id) {
+    const body = document.getElementById('body-' + id);
+    if (!body) return;
+    body.classList.toggle('open');
+    const btn = document.querySelector(`#card-${id} .btn-expand`);
+    if (btn) btn.textContent = body.classList.contains('open') ? 'Hide report' : 'View report';
+  }
+
+  async function toggleFav(id, current) {
+    const newVal = !current;
+    const { error } = await sb.from('reports').update({ is_favorite: newVal }).eq('id', id);
+    if (error) return;
+
+    const report = allReports.find(r => r.id === id);
+    if (report) report.is_favorite = newVal;
+
+    const card = document.getElementById('card-' + id);
+    if (card) {
+      card.classList.toggle('favorite', newVal);
+      const btn = card.querySelector('.btn-fav');
+      btn.classList.toggle('starred', newVal);
+      btn.textContent = newVal ? '⭐' : '☆';
+      btn.title = newVal ? 'Remove from favorites' : 'Add to favorites';
+      btn.setAttribute('onclick', `toggleFav('${id}', ${newVal})`);
+    }
+  }
+
+  // --- HELPERS ---
+  function show(section) {
+    document.getElementById('loading').style.display     = section === 'loading' ? 'block' : 'none';
+    document.getElementById('empty-state').style.display = section === 'empty'   ? 'block' : 'none';
+    document.getElementById('report-list').style.display = section === 'list'    ? 'flex'  : 'none';
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  show('loading');
+  init();
+</script>
+
+</body>
+</html>
