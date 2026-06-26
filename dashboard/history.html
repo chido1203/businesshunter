@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -155,6 +156,32 @@
       white-space: nowrap;
     }
     .btn-expand:hover { border-color: var(--amber); color: var(--amber); }
+    .btn-build {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-build:hover { border-color: var(--green); color: var(--green); }
+    .btn-build.active { border-color: var(--green); color: var(--green); background: rgba(74,222,128,0.08); }
+    .building-badge { font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+    .btn-pdf-sm {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-pdf-sm:hover { border-color: var(--purple); color: var(--purple); }
 
     /* REPORT BODY */
     .report-body {
@@ -224,6 +251,7 @@
   <div class="filter-tabs">
     <button class="filter-btn active" onclick="setFilter('all')">All reports</button>
     <button class="filter-btn" onclick="setFilter('favorites')">⭐ Favorites</button>
+    <button class="filter-btn" onclick="setFilter('building')">🔨 Building</button>
     <button class="filter-btn" onclick="setFilter('done')">Completed</button>
   </div>
 
@@ -296,7 +324,7 @@
   function setFilter(filter) {
     currentFilter = filter;
     document.querySelectorAll('.filter-btn').forEach((btn, i) => {
-      btn.classList.toggle('active', ['all','favorites','done'][i] === filter);
+      btn.classList.toggle('active', ['all','favorites','building','done'][i] === filter);
     });
     renderList();
   }
@@ -304,20 +332,22 @@
   function renderList() {
     let filtered = allReports;
     if (currentFilter === 'favorites') filtered = allReports.filter(r => r.is_favorite);
+    if (currentFilter === 'building')  filtered = allReports.filter(r => r.is_building);
     if (currentFilter === 'done')      filtered = allReports.filter(r => r.status === 'done');
 
     const list = document.getElementById('report-list');
     list.innerHTML = '';
 
     if (filtered.length === 0) {
-      const titles = { all: 'No reports yet', favorites: 'No favorites yet', done: 'No completed reports' };
+      const titles = { all: 'No reports yet', favorites: 'No favorites yet', building: 'Not building anything yet', done: 'No completed reports' };
       const descs  = {
         all: 'Run Pain Radar on a niche to generate your first opportunity report.',
         favorites: 'Star a report to save it here for quick access.',
+        building: 'Mark a report as "Building this" to track your active projects.',
         done: 'Completed reports will appear here.'
       };
-      document.getElementById('empty-title').textContent = titles[currentFilter];
-      document.getElementById('empty-desc').textContent  = descs[currentFilter];
+      document.getElementById('empty-title').textContent = titles[currentFilter] || 'No reports';
+      document.getElementById('empty-desc').textContent  = descs[currentFilter]  || '';
       document.getElementById('empty-state').querySelector('a').style.display = currentFilter === 'all' ? 'inline-block' : 'none';
       show('empty');
       return;
@@ -351,7 +381,15 @@
             onclick="toggleFav('${report.id}', ${report.is_favorite})">
             ${report.is_favorite ? '⭐' : '☆'}
           </button>
-          ${report.status === 'done' ? `<button class="btn-expand" onclick="toggleExpand('${report.id}')">View report</button>` : ''}
+          <button class="btn-build ${report.is_building ? 'active' : ''}"
+            title="${report.is_building ? 'Stop building' : 'Mark as building'}"
+            onclick="toggleBuild('${report.id}', ${report.is_building})">
+            ${report.is_building ? '🔨 Building' : '🔨'}
+          </button>
+          ${report.status === 'done' ? `
+            <button class="btn-pdf-sm" onclick="exportPDF('${report.id}', \`${escHtml(report.topic)}\`)" title="Export PDF">↓ PDF</button>
+            <button class="btn-expand" onclick="toggleExpand('${report.id}')">View report</button>
+          ` : ''}
         </div>
       </div>
       <div class="report-body" id="body-${report.id}">
@@ -371,6 +409,35 @@
     body.classList.toggle('open');
     const btn = document.querySelector(`#card-${id} .btn-expand`);
     if (btn) btn.textContent = body.classList.contains('open') ? 'Hide report' : 'View report';
+  }
+
+  async function toggleBuild(id, current) {
+    const newVal = !current;
+    const { error } = await sb.from('reports').update({ is_building: newVal }).eq('id', id);
+    if (error) return;
+    const report = allReports.find(r => r.id === id);
+    if (report) report.is_building = newVal;
+    const card = document.getElementById('card-' + id);
+    if (card) {
+      const btn = card.querySelector('.btn-build');
+      btn.classList.toggle('active', newVal);
+      btn.textContent = newVal ? '🔨 Building' : '🔨';
+      btn.title = newVal ? 'Stop building' : 'Mark as building';
+      btn.setAttribute('onclick', `toggleBuild('${id}', ${newVal})`);
+    }
+    if (currentFilter === 'building') renderList();
+  }
+
+  function exportPDF(id, topic) {
+    const el = document.getElementById('body-' + id);
+    if (!el) { toggleExpand(id); setTimeout(() => exportPDF(id, topic), 300); return; }
+    html2pdf().set({
+      margin: [10, 15],
+      filename: topic.slice(0,50).replace(/[^a-z0-9]/gi,'_') + '.pdf',
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, backgroundColor: '#ffffff' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(el.querySelector('.report-body-inner')).save();
   }
 
   async function toggleFav(id, current) {

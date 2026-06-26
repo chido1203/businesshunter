@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -337,6 +338,31 @@
       transition: all 0.2s;
     }
     .btn-new:hover { border-color: var(--amber); color: var(--amber); }
+    .btn-pdf {
+      padding: 8px 16px;
+      background: var(--s2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-pdf:hover { border-color: var(--purple); color: var(--purple); }
+    .btn-building {
+      padding: 8px 16px;
+      background: var(--s2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-building:hover { border-color: var(--green); color: var(--green); }
+    .btn-building.active { border-color: var(--green); color: var(--green); background: rgba(74,222,128,0.08); }
 
     .report-content {
       background: var(--s1);
@@ -452,6 +478,8 @@
     <div class="report-header">
       <h2 id="report-title">Research Report</h2>
       <div class="report-actions">
+        <button class="btn-building" id="btn-building" onclick="toggleBuilding()">🔨 Building this</button>
+        <button class="btn-pdf" onclick="exportPDF()">↓ Export PDF</button>
         <button class="btn-new" onclick="newResearch()">+ New Research</button>
       </div>
     </div>
@@ -612,7 +640,7 @@
             if (userProfile) userProfile.reports_this_month = newCount;
           }
 
-          showReport(job.topic || document.getElementById('topic-input').value, job.report);
+          showReport(job.topic || document.getElementById('topic-input').value, job.report, savedReport?.id);
 
         } else if (job.status === 'error') {
           clearInterval(pollInterval);
@@ -626,11 +654,45 @@
     }, 5000);
   }
 
-  function showReport(topic, markdown) {
+  async function showReport(topic, markdown, reportId) {
     document.getElementById('report-title').textContent = topic;
     document.getElementById('report-body').innerHTML = marked.parse(markdown);
+    currentReportId = reportId || null;
+
+    if (reportId) {
+      const { data } = await sb.from('reports').select('is_building').eq('id', reportId).single();
+      isBuilding = data?.is_building || false;
+      const btn = document.getElementById('btn-building');
+      btn.classList.toggle('active', isBuilding);
+      btn.textContent = isBuilding ? '🔨 Building this ✓' : '🔨 Building this';
+    }
+
     show('report');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let currentReportId = null;
+  let isBuilding = false;
+
+  async function toggleBuilding() {
+    if (!currentReportId) return;
+    isBuilding = !isBuilding;
+    await sb.from('reports').update({ is_building: isBuilding }).eq('id', currentReportId);
+    const btn = document.getElementById('btn-building');
+    btn.classList.toggle('active', isBuilding);
+    btn.textContent = isBuilding ? '🔨 Building this ✓' : '🔨 Building this';
+  }
+
+  function exportPDF() {
+    const topic = document.getElementById('report-title').textContent;
+    const element = document.getElementById('report-body');
+    html2pdf().set({
+      margin: [10, 15],
+      filename: topic.slice(0,50).replace(/[^a-z0-9]/gi,'_') + '.pdf',
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, backgroundColor: '#ffffff' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(element).save();
   }
 
   function newResearch() {
