@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — Business Hunter</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f59e0b'/><text y='.9em' font-size='70' x='12'>🎯</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #07070f;
+      --s1:         #0d0d1a;
+      --s2:         #131320;
+      --s3:         #1a1a2e;
+      --border:     rgba(255,255,255,0.07);
+      --amber:      #f59e0b;
+      --amber2:     #fcd34d;
+      --amber-glow: rgba(245,158,11,0.15);
+      --green:      #4ade80;
+      --red:        #f87171;
+      --text:       #eeeef8;
+      --muted:      #5a5a78;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAV */
+    nav {
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--amber);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    .nav-back {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* MAIN */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .card-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .card-header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      background: var(--s2);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 28px;
+      gap: 4px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 9px;
+      border: none;
+      border-radius: 7px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      color: var(--muted);
+    }
+    .tab-btn.active {
+      background: var(--s3);
+      color: var(--text);
+    }
+
+    /* FORM */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      background: var(--s2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      border-color: var(--amber);
+    }
+    input::placeholder { color: var(--muted); }
+
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      background: var(--amber);
+      color: #07070f;
+      border: none;
+      border-radius: 9px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      margin-top: 6px;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:active { transform: scale(0.99); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* MESSAGES */
+    .msg {
+      padding: 12px 14px;
+      border-radius: 9px;
+      font-size: 0.875rem;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .msg.error {
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      color: var(--red);
+    }
+    .msg.success {
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      color: var(--green);
+    }
+    .msg.show { display: block; }
+
+    .divider {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin: 20px 0;
+      position: relative;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 42%;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider::before { left: 0; }
+    .divider::after { right: 0; }
+
+    .terms-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+    .terms-note a { color: var(--amber); text-decoration: none; }
+
+    @media (max-width: 480px) {
+      .card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-icon">🎯</div>
+    Business Hunter
+  </a>
+  <a href="/" class="nav-back">← Back to home</a>
+</nav>
+
+<main>
+  <div class="card">
+
+    <div class="card-header">
+      <h1>Welcome back</h1>
+      <p>Sign in to access your opportunity dashboard</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
+      <button class="tab-btn" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+    </div>
+
+    <div id="msg-error" class="msg error"></div>
+    <div id="msg-success" class="msg success"></div>
+
+    <!-- SIGN IN FORM -->
+    <form id="form-signin" onsubmit="handleSignIn(event)">
+      <div class="form-group">
+        <label for="signin-email">Email</label>
+        <input type="email" id="signin-email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="signin-password">Password</label>
+        <input type="password" id="signin-password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn-primary" id="btn-signin">Sign In →</button>
+    </form>
+
+    <!-- SIGN UP FORM -->
+    <form id="form-signup" style="display:none" onsubmit="handleSignUp(event)">
+      <div class="form-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" placeholder="Min. 8 characters" minlength="8" required />
+      </div>
+      <button type="submit" class="btn-primary" id="btn-signup">Create Free Account →</button>
+      <p class="terms-note">
+        By signing up you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.
+      </p>
+    </form>
+
+  </div>
+</main>
+
+<script>
+  const SUPABASE_URL = 'https://praozoztocdickeldzxd.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_aTOcO__YL0wlq5qXX5-EYA_Y-KzvBrn';
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Redirect if already logged in
+  sb.auth.getSession().then(({ data }) => {
+    if (data.session) window.location.href = '/dashboard/';
+  });
+
+  function switchTab(tab) {
+    document.getElementById('tab-signin').classList.toggle('active', tab === 'signin');
+    document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+    document.getElementById('form-signin').style.display = tab === 'signin' ? 'block' : 'none';
+    document.getElementById('form-signup').style.display = tab === 'signup' ? 'block' : 'none';
+    clearMessages();
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('msg-error');
+    el.textContent = msg;
+    el.classList.add('show');
+    document.getElementById('msg-success').classList.remove('show');
+  }
+
+  function showSuccess(msg) {
+    const el = document.getElementById('msg-success');
+    el.textContent = msg;
+    el.classList.add('show');
+    document.getElementById('msg-error').classList.remove('show');
+  }
+
+  function clearMessages() {
+    document.getElementById('msg-error').classList.remove('show');
+    document.getElementById('msg-success').classList.remove('show');
+  }
+
+  async function handleSignIn(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-signin');
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
+    clearMessages();
+
+    const email = document.getElementById('signin-email').value;
+    const password = document.getElementById('signin-password').value;
+
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      showError(error.message);
+      btn.disabled = false;
+      btn.textContent = 'Sign In →';
+    } else {
+      window.location.href = '/dashboard/';
+    }
+  }
+
+  async function handleSignUp(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-signup');
+    btn.disabled = true;
+    btn.textContent = 'Creating account...';
+    clearMessages();
+
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    const { error } = await sb.auth.signUp({ email, password });
+
+    if (error) {
+      showError(error.message);
+      btn.disabled = false;
+      btn.textContent = 'Create Free Account →';
+    } else {
+      showSuccess('✓ Check your email to confirm your account, then sign in.');
+      btn.disabled = false;
+      btn.textContent = 'Create Free Account →';
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're in — Business Hunter</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f59e0b'/><text y='.9em' font-size='70' x='12'>🎯</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #07070f;
+      color: #eeeef8;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 5%;
+      position: relative;
+      overflow: hidden;
+    }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px; height: 500px;
+      background: radial-gradient(ellipse, rgba(74,222,128,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .icon {
+      width: 72px; height: 72px;
+      background: rgba(74,222,128,0.12);
+      border: 1px solid rgba(74,222,128,0.25);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 28px;
+      animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes pop {
+      from { opacity: 0; transform: scale(0.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      margin-bottom: 14px;
+    }
+    .green { color: #4ade80; }
+    p {
+      color: #5a5a78;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 440px;
+      margin: 0 auto 36px;
+    }
+    .back-btn {
+      display: inline-block;
+      background: #f59e0b;
+      color: #000;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 12px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .back-btn:hover { opacity: 0.85; }
+    .share-text {
+      margin-top: 32px;
+      font-size: 0.8rem;
+      color: #3a3a55;
+    }
+  </style>
+</head>
+<body>
+  <div class="icon">✓</div>
+  <h1>You're on the <span class="green">list.</span></h1>
+  <p>
+    We'll send you your first business opportunity as soon as we launch.
+    Keep an eye on your inbox — and make sure to check your spam folder.
+  </p>
+  <a href="/" class="back-btn">← Back to Business Hunter</a>
+  <p class="share-text">Know someone who should be building? Share the link.</p>
+</body>
+</html>

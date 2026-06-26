@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How to Use Business Hunter — Complete Guide</title>
+<meta name="description" content="A clear, step-by-step guide to getting the most out of Business Hunter — from subscribing to shipping your first product." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f59e0b'/><text y='.9em' font-size='70' x='12'>🎯</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #07070f; --s1: #0d0d1a; --s2: #131320; --s3: #1a1a2e;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.04);
+    --amber: #f59e0b; --amber2: #fcd34d; --amber-glow: rgba(245,158,11,0.15);
+    --green: #4ade80; --red: #f87171; --purple: #a78bfa;
+    --text: #eeeef8; --muted: #5a5a78; --muted2: #3a3a55;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.6; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--s3); border-radius: 3px; }
+
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; height: 62px; background: rgba(7,7,15,0.85); backdrop-filter: blur(20px) saturate(1.8); border-bottom: 1px solid var(--border); }
+  .logo { display: flex; align-items: center; gap: 9px; font-weight: 800; font-size: 1rem; color: var(--text); text-decoration: none; }
+  .logo-mark { width: 28px; height: 28px; background: linear-gradient(135deg, var(--amber), #e07800); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 0 12px rgba(245,158,11,0.4); }
+  .btn-amber { display: inline-block; background: var(--amber); color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+  .btn-amber:hover { background: var(--amber2); box-shadow: 0 0 20px rgba(245,158,11,0.3); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 60px 24px 100px; }
+
+  .badge-guide { display: inline-flex; align-items: center; gap: 8px; background: var(--amber-glow); border: 1px solid rgba(245,158,11,0.3); border-radius: 100px; padding: 6px 16px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; color: var(--amber); margin-bottom: 24px; }
+
+  h1.g-title { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+  p.g-lead { color: var(--muted); font-size: 1.05rem; margin-bottom: 44px; max-width: 600px; }
+
+  .step-block { display: flex; gap: 22px; padding: 32px 0; border-top: 1px solid var(--border); }
+  .step-block:first-of-type { border-top: 1px solid var(--border); }
+  .step-num { flex: none; width: 44px; height: 44px; border-radius: 12px; background: var(--s2); border: 1px solid rgba(245,158,11,0.25); color: var(--amber); font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; }
+  .step-content h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .step-content p { color: #c7c7da; font-size: 0.95rem; margin-bottom: 10px; }
+  .step-content p:last-child { margin-bottom: 0; }
+  .step-link { color: var(--amber); font-size: 0.88rem; font-weight: 700; text-decoration: none; }
+  .step-link:hover { color: var(--amber2); }
+  .step-tag { display: inline-block; background: var(--s2); border: 1px solid var(--border); border-radius: 100px; padding: 4px 12px; font-size: 0.74rem; color: var(--muted); margin-right: 6px; margin-bottom: 10px; }
+
+  .mini-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .mini-table th { background: var(--s2); color: var(--amber); text-align: left; padding: 10px 14px; font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; overflow-wrap: break-word; }
+  .mini-table td { padding: 10px 14px; border-top: 1px solid var(--border2); color: #c7c7da; overflow-wrap: break-word; }
+  .mini-table .yes { color: var(--green); } .mini-table .no { color: var(--muted2); }
+
+  .quote-box { background: var(--s1); border-left: 2px solid var(--amber); border-radius: 0 10px 10px 0; padding: 14px 18px; font-size: 0.9rem; color: var(--text); margin-top: 12px; font-style: italic; }
+
+  .g-divider { height: 1px; background: var(--border); margin: 56px 0 0; }
+  h2.g-h2 { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin: 56px 0 24px; }
+
+  .faq-mini { border-top: 1px solid var(--border); padding: 18px 0; }
+  .faq-mini h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+  .faq-mini p { color: var(--muted); font-size: 0.88rem; }
+
+  .cta-box { margin-top: 60px; text-align: center; background: var(--s1); border: 1px solid rgba(245,158,11,0.25); border-radius: 20px; padding: 48px 32px; box-shadow: 0 0 60px rgba(245,158,11,0.07); }
+  .cta-box h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.02em; }
+  .cta-box p { color: var(--muted); font-size: 0.92rem; margin-bottom: 24px; }
+  .email-row { display: flex; gap: 10px; max-width: 420px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+  .email-row input { flex: 1; min-width: 220px; background: var(--s2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; color: var(--text); font-size: 0.9rem; }
+  .email-row input::placeholder { color: var(--muted2); }
+  .email-row button { background: var(--amber); color: #000; border: none; padding: 12px 22px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+  .email-row button:hover { background: var(--amber2); }
+  .cta-sub { margin-top: 16px; font-size: 0.8rem; color: var(--muted2); }
+  .cta-sub a { color: var(--muted); text-decoration: none; border-bottom: 1px solid rgba(90,90,120,0.3); }
+  .cta-sub a:hover { color: var(--amber); }
+
+  @media (max-width: 600px) {
+    h1.g-title { font-size: 1.7rem; }
+    .wrap { padding: 40px 18px 80px; }
+    .step-block { gap: 14px; }
+    .mini-table { font-size: 0.78rem; }
+    .mini-table th, .mini-table td { padding: 8px 8px; }
+    .cta-box { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <span class="logo-mark">🎯</span>
+    Business Hunter
+  </a>
+  <a href="/#pricing" class="btn-amber">Get early access</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="badge-guide">📖 Complete guide</div>
+  <h1 class="g-title">How to use Business Hunter, start to finish.</h1>
+  <p class="g-lead">No dashboard, no app to learn. Business Hunter lives in your inbox. Here's exactly what happens after you sign up, and how to get the most out of every report.</p>
+
+  <div class="step-block">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h3>Subscribe with just your email</h3>
+      <p>No credit card, no setup. Enter your email on the homepage and you're in. Prefer not to use email? Join the <a href="https://t.me/businesshunterco" target="_blank" class="step-link">Telegram channel →</a> instead — same opportunities, different inbox.</p>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h3>Your reports arrive automatically</h3>
+      <p>You don't have to check a dashboard or remember to log in — the opportunity comes to you.</p>
+      <table class="mini-table">
+        <tr><th>Plan</th><th>Frequency</th><th>Delivery days</th></tr>
+        <tr><td>Free</td><td>1 opportunity / week</td><td>Monday</td></tr>
+        <tr><td>Pro</td><td>3 opportunities / week</td><td>Monday, Wednesday, Friday</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h3>Read the report in this order</h3>
+      <p>Every report follows the same structure on purpose — once you know it, you can scan a report and decide if it's worth pursuing in under 5 minutes:</p>
+      <span class="step-tag">1. The signal</span><span class="step-tag">2. The opportunity</span><span class="step-tag">3. Market size</span><span class="step-tag">4. Demand score</span><span class="step-tag">5. Competition</span><span class="step-tag">6. Unit economics</span><span class="step-tag">7. MVP</span><span class="step-tag">8. Roadmap</span><span class="step-tag">9. Validation</span><span class="step-tag">10. Claude prompt</span>
+      <p>Not sure what that looks like in practice? <a href="/demo.html" class="step-link">Read a full, real sample report free →</a></p>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <h3>Validate before you write a single line of code</h3>
+      <p>Every report includes a validation strategy with a concrete threshold to act on — not "do market research," but an actual test:</p>
+      <div class="quote-box">"Talk to 20 people who match the target customer. If 5 of them say yes and hand over their email — build it. Not 20 out of 20. Just 5. That's enough signal."</div>
+      <p style="margin-top:10px">Skipping this step is the #1 reason people build things nobody wants. Don't skip it.</p>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">5</div>
+    <div class="step-content">
+      <h3>Build with the ready-made prompt</h3>
+      <p>Each report ends with a Claude / Cursor prompt — the tech stack, database schema and feature scope already decided. Copy it, paste it into <strong style="color:var(--text)">Claude Code</strong> or <strong style="color:var(--text)">Cursor</strong>, and you're building within minutes instead of spending a week scoping the MVP yourself.</p>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">6</div>
+    <div class="step-content">
+      <h3>Score your own ideas anytime</h3>
+      <p>Already have an idea of your own? Use the free <a href="/#calculator" class="step-link">Idea Validator →</a> on the homepage — 5 quick questions, instant demand score, no signup needed.</p>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">7</div>
+    <div class="step-content">
+      <h3>Decide: stay Free or go Pro</h3>
+      <p>Free is built to prove the quality, not to be a teaser with no value. Pro is for people actively hunting for their next build.</p>
+      <table class="mini-table">
+        <tr><th>Unlocked</th><th>Free</th><th>Pro</th></tr>
+        <tr><td>Problem + demand score preview</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Full competition analysis</td><td class="no">✕</td><td class="yes">✓</td></tr>
+        <tr><td>MVP + execution roadmap</td><td class="no">✕</td><td class="yes">✓</td></tr>
+        <tr><td>Validation strategy</td><td class="no">✕</td><td class="yes">✓</td></tr>
+        <tr><td>Claude / Cursor prompt</td><td class="no">✕</td><td class="yes">✓</td></tr>
+        <tr><td>Full archive (247+ opportunities)</td><td class="no">✕</td><td class="yes">✓</td></tr>
+      </table>
+      <p style="margin-top:10px">See current pricing on the <a href="/#pricing" class="step-link">pricing section →</a>. No contracts — cancel anytime before your next billing date.</p>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">8</div>
+    <div class="step-content">
+      <h3>Get a free month of Pro by referring friends</h3>
+      <p>Refer 3 people who subscribe, then email <strong style="color:var(--text)">businesshunterservices@gmail.com</strong> with the subject line <strong style="color:var(--text)">"PRO ACCESS"</strong>. We activate your free month within 24 hours.</p>
+    </div>
+  </div>
+
+  <div class="g-divider"></div>
+  <h2 class="g-h2">Quick answers</h2>
+
+  <div class="faq-mini">
+    <h4>Do I need to know how to code?</h4>
+    <p>No. The Claude / Cursor prompt in every report is written so AI coding tools can build most of the MVP for you. Plenty of subscribers are non-technical and ship with AI assistance alone.</p>
+  </div>
+  <div class="faq-mini">
+    <h4>What if I miss a week?</h4>
+    <p>Nothing is lost — Pro subscribers can always browse the full archive of past opportunities, and reports don't expire.</p>
+  </div>
+  <div class="faq-mini">
+    <h4>Can I downgrade or cancel?</h4>
+    <p>Yes, anytime, no contracts. You'll keep Pro access until the end of the period you already paid for.</p>
+  </div>
+  <div class="faq-mini">
+    <h4>Is the data real?</h4>
+    <p>Yes. Every opportunity is backed by real signals pulled from communities and forums, manually verified before publishing — not generated from nothing.</p>
+  </div>
+
+  <div class="cta-box">
+    <h3>Ready to start hunting?</h3>
+    <p>Join free — your first opportunity report lands this Monday.</p>
+    <form class="email-row" method="POST" action="/.netlify/functions/subscribe">
+      <input type="email" name="email" placeholder="Your email" required />
+      <button type="submit">Join free →</button>
+    </form>
+    <p class="cta-sub">Prefer Telegram? <a href="https://t.me/businesshunterco" target="_blank">Join the channel →</a></p>
+  </div>
+
+</div>
+
+</body>
+</html>

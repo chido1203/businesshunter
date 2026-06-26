@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Business Hunter Pro</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f59e0b'/><text y='.9em' font-size='70' x='12'>🎯</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #07070f;
+      color: #eeeef8;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+      background-size: 30px 30px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+      pointer-events: none;
+    }
+    .glow {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(245,158,11,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .card {
+      position: relative;
+      background: #0d0d1a;
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 24px;
+      padding: 56px 48px;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(245,158,11,0.07);
+    }
+    .check-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(74,222,128,0.1);
+      border: 2px solid rgba(74,222,128,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 2rem;
+      animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .brand {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f59e0b;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .sub {
+      font-size: 0.95rem;
+      color: #5a5a78;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .steps {
+      background: #131320;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .steps-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #f59e0b;
+      margin-bottom: 20px;
+    }
+    .step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+    .step:last-child { margin-bottom: 0; }
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #f59e0b;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-text {
+      font-size: 0.875rem;
+      color: #eeeef8;
+      line-height: 1.6;
+    }
+    .step-text span {
+      color: #5a5a78;
+      display: block;
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 24px 0;
+    }
+    .email-box {
+      background: rgba(245,158,11,0.06);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      color: #f59e0b;
+      margin: 12px 0 24px;
+      font-weight: 500;
+    }
+    .btn-amber {
+      display: inline-block;
+      background: #f59e0b;
+      color: #000;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .btn-amber:hover { background: #fcd34d; box-shadow: 0 0 24px rgba(245,158,11,0.3); }
+    .footer-note {
+      margin-top: 24px;
+      font-size: 0.75rem;
+      color: #3a3a55;
+      line-height: 1.6;
+    }
+    .footer-note a { color: #5a5a78; text-decoration: none; }
+    .footer-note a:hover { color: #f59e0b; }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+
+  <div class="card">
+    <div class="check-wrap">✓</div>
+    <div class="brand">Business Hunter Pro</div>
+    <h1>You're in.<br>Welcome to Pro.</h1>
+    <p class="sub">Payment confirmed. Here's exactly what happens next.</p>
+
+    <div class="steps">
+      <div class="steps-title">What happens now</div>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          Check your email inbox
+          <span>You'll receive a confirmation from Lemon Squeezy. Keep it as your receipt.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          We activate your Pro access manually
+          <span>Within 24 hours you'll receive an email from Business Hunter confirming your Pro subscription is active.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          Your first Pro opportunity lands Monday
+          <span>3 verified opportunities per week — Monday, Wednesday and Friday mornings. Starting this Monday.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <p style="font-size:0.82rem;color:#5a5a78;margin-bottom:6px">Questions? Reply to your receipt or email us directly:</p>
+    <div class="email-box">businesshunterservices@gmail.com</div>
+
+    <a href="/" class="btn-amber">Back to Business Hunter →</a>
+
+    <p class="footer-note">
+      Business Hunter · businesshunterclub.com<br>
+      <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a>
+    </p>
+  </div>
+</body>
+</html>

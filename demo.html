@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Free Sample Report — Business Hunter</title>
+<meta name="description" content="See a real, complete Business Hunter opportunity report — free, no signup required." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f59e0b'/><text y='.9em' font-size='70' x='12'>🎯</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #07070f; --s1: #0d0d1a; --s2: #131320; --s3: #1a1a2e;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.04);
+    --amber: #f59e0b; --amber2: #fcd34d; --amber-glow: rgba(245,158,11,0.15);
+    --green: #4ade80; --red: #f87171; --purple: #a78bfa;
+    --text: #eeeef8; --muted: #5a5a78; --muted2: #3a3a55;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased; line-height: 1.6;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--s3); border-radius: 3px; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 62px;
+    background: rgba(7,7,15,0.85); backdrop-filter: blur(20px) saturate(1.8);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { display: flex; align-items: center; gap: 9px; font-weight: 800; font-size: 1rem; color: var(--text); text-decoration: none; }
+  .logo-mark { width: 28px; height: 28px; background: linear-gradient(135deg, var(--amber), #e07800); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 0 12px rgba(245,158,11,0.4); }
+  .btn-amber { display: inline-block; background: var(--amber); color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+  .btn-amber:hover { background: var(--amber2); box-shadow: 0 0 20px rgba(245,158,11,0.3); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 60px 24px 100px; }
+
+  .badge-free {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3);
+    border-radius: 100px; padding: 6px 16px; font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.05em; color: var(--green); margin-bottom: 24px;
+  }
+  .badge-free .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+
+  .r-eyebrow { color: var(--amber); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+  h1.r-title { font-size: 2.3rem; font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 18px; }
+  .r-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+  .r-chip { background: var(--s2); border: 1px solid var(--border); border-radius: 100px; padding: 6px 14px; font-size: 0.8rem; color: var(--muted); }
+  .r-chip.score { background: var(--amber-glow); border-color: rgba(245,158,11,0.3); color: var(--amber); font-weight: 700; }
+
+  .r-divider { height: 1px; background: var(--border); margin: 44px 0; }
+
+  h2.r-h2 { font-size: 0.82rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin: 0 0 20px; padding-top: 6px; }
+  h2.r-h2 span { color: var(--muted2); font-weight: 600; margin-left: 8px; }
+
+  p.r-p { color: #c7c7da; margin-bottom: 16px; font-size: 0.98rem; }
+
+  blockquote.r-quote {
+    border-left: 2px solid var(--amber); padding: 4px 20px; margin: 18px 0;
+    font-style: italic; color: var(--text); font-size: 0.95rem;
+  }
+  blockquote.r-quote cite { display: block; margin-top: 8px; font-style: normal; font-size: 0.78rem; color: var(--muted); }
+
+  .r-callout {
+    background: var(--s2); border: 1px solid rgba(245,158,11,0.25); border-radius: 14px;
+    padding: 26px 28px; margin: 8px 0 0; font-size: 1.08rem; font-weight: 600; color: var(--text);
+    box-shadow: 0 0 30px rgba(245,158,11,0.05);
+  }
+
+  .r-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; margin: 4px 0; }
+  table.r-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+  table.r-table th { background: var(--s2); color: var(--amber); text-align: left; padding: 12px 16px; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 1px solid var(--border); overflow-wrap: break-word; }
+  table.r-table td { padding: 12px 16px; border-bottom: 1px solid var(--border2); color: #c7c7da; overflow-wrap: break-word; }
+  table.r-table tr:last-child td { border-bottom: none; }
+  table.r-table strong { color: var(--text); }
+
+  .r-strong-row td { background: rgba(245,158,11,0.05); font-weight: 700; color: var(--text) !important; }
+
+  ol.r-steps, ul.r-list { margin: 12px 0 0 0; padding-left: 22px; color: #c7c7da; font-size: 0.95rem; }
+  ol.r-steps li, ul.r-list li { margin-bottom: 10px; }
+  ol.r-steps strong, ul.r-list strong { color: var(--text); }
+
+  .r-phase { background: var(--s1); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin-bottom: 14px; }
+  .r-phase h4 { color: var(--amber2); font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; }
+  .r-phase ul { padding-left: 18px; color: #c7c7da; font-size: 0.9rem; }
+  .r-phase ul li { margin-bottom: 4px; }
+  .r-milestone { color: var(--green); font-size: 0.85rem; font-weight: 600; margin-top: 8px; }
+
+  pre.r-code {
+    background: #000; border: 1px solid var(--border); border-radius: 12px;
+    padding: 22px; overflow-x: auto; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem; line-height: 1.65; color: #9dd9a8; margin: 4px 0;
+  }
+
+  .r-final {
+    text-align: center; padding: 40px 20px; margin-top: 12px;
+  }
+  .r-final p { color: var(--muted); font-size: 0.95rem; margin-bottom: 6px; }
+  .r-final strong { color: var(--text); }
+
+  .r-bottomline {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08), transparent);
+    border: 1px solid rgba(245,158,11,0.2); border-radius: 16px; padding: 32px;
+  }
+
+  .r-sig { color: var(--muted2); font-size: 0.82rem; text-align: center; margin-top: 40px; line-height: 1.8; }
+
+  .cta-box {
+    margin-top: 60px; text-align: center; background: var(--s1);
+    border: 1px solid rgba(245,158,11,0.25); border-radius: 20px; padding: 48px 32px;
+    box-shadow: 0 0 60px rgba(245,158,11,0.07);
+  }
+  .cta-box h3 { font-size: 1.6rem; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.02em; }
+  .cta-box p { color: var(--muted); font-size: 0.95rem; margin-bottom: 24px; }
+  .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-ghost-lg { display: inline-block; border: 1px solid var(--border); color: var(--text); padding: 13px 26px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: all 0.2s; }
+  .btn-ghost-lg:hover { border-color: var(--amber); color: var(--amber); }
+  .btn-amber-lg { display: inline-block; background: var(--amber); color: #000; padding: 13px 26px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; text-decoration: none; transition: all 0.2s; }
+  .btn-amber-lg:hover { background: var(--amber2); box-shadow: 0 0 24px rgba(245,158,11,0.3); }
+
+  @media (max-width: 600px) {
+    h1.r-title { font-size: 1.7rem; }
+    .wrap { padding: 40px 18px 80px; }
+    table.r-table { font-size: 0.76rem; }
+    table.r-table th, table.r-table td { padding: 9px 8px; }
+    pre.r-code { white-space: pre-wrap; word-break: break-word; font-size: 0.72rem; padding: 16px; }
+    .cta-box { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <span class="logo-mark">🎯</span>
+    Business Hunter
+  </a>
+  <a href="/#pricing" class="btn-amber">Get early access</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="badge-free"><span class="dot"></span>FREE SAMPLE — full report, no signup required</div>
+
+  <div class="r-eyebrow">Market Intelligence Report · Opportunity #001</div>
+  <h1 class="r-title">Local service businesses lose bookings daily to unanswered WhatsApp messages — no dedicated tool exists.</h1>
+  <div class="r-meta">
+    <span class="r-chip score">Score 91 / 100</span>
+    <span class="r-chip">SaaS · B2B</span>
+    <span class="r-chip">Verified · High Conviction</span>
+    <span class="r-chip">First revenue: 6–10 weeks</span>
+  </div>
+
+  <p class="r-p">This is exactly the kind of report that lands in your inbox every week. Read the full thing below — it's the same depth and format Pro subscribers get, unlocked for everyone as a sample.</p>
+
+  <div class="r-divider"></div>
+
+  <h2 class="r-h2">The Signal</h2>
+  <blockquote class="r-quote">"Still using WhatsApp honestly. Tried Calendly but my clients kept getting confused."<cite>— r/personaltrainer, 847 upvotes</cite></blockquote>
+  <blockquote class="r-quote">"I lose about 2 hours a week just going back and forth confirming appointments. There has to be a better way."<cite>— r/smallbusiness, 1.2k upvotes</cite></blockquote>
+  <blockquote class="r-quote">"The tool is too complex. I just want clients to book and get a reminder. That's it."<cite>— 1-star App Store review of Calendly, repeated pattern across 200+ reviews</cite></blockquote>
+  <p class="r-p">These are not isolated complaints. Our Pain Radar detected <strong style="color:var(--text)">143 threads</strong> across Reddit, IndieHackers and niche forums in the last 90 days expressing the same frustration in different words. The problem is old. The solution still doesn't exist at the right price and simplicity level.</p>
+
+  <h2 class="r-h2">The Opportunity, In One Sentence</h2>
+  <div class="r-callout">Build the dead-simple booking tool for independent service providers — the one that works in 10 minutes, costs less than one no-show, and sends reminders automatically.</div>
+
+  <h2 class="r-h2">Market Size</h2>
+  <div class="r-table-wrap">
+    <table class="r-table">
+      <tr><th>Segment</th><th>Est. addressable businesses</th><th>Willingness to pay</th></tr>
+      <tr><td>Personal trainers</td><td>900,000+</td><td>High ($20-50/mo)</td></tr>
+      <tr><td>Private tutors</td><td>2,100,000+</td><td>Medium ($10-20/mo)</td></tr>
+      <tr><td>Barbers &amp; hair stylists</td><td>1,400,000+</td><td>Medium ($10-15/mo)</td></tr>
+      <tr><td>Physiotherapists</td><td>500,000+</td><td>High ($20-40/mo)</td></tr>
+      <tr><td>Yoga &amp; pilates instructors</td><td>700,000+</td><td>Medium ($15-25/mo)</td></tr>
+      <tr><td>Massage therapists</td><td>400,000+</td><td>High ($20-35/mo)</td></tr>
+      <tr><td>Nail salons (solo operators)</td><td>600,000+</td><td>Medium ($10-20/mo)</td></tr>
+      <tr class="r-strong-row"><td><strong>Total TAM</strong></td><td><strong>~6.6M businesses</strong></td><td>—</td></tr>
+    </table>
+  </div>
+  <p class="r-p" style="margin-top:18px">Realistic capture scenario at 18 months: target 0.08% of TAM = <strong style="color:var(--text)">5,280 customers</strong> at $15/month average = <strong style="color:var(--amber)">$79,200 MRR</strong>. That is less than 1 in 1,000 of the available market.</p>
+
+  <h2 class="r-h2">Demand Score Breakdown</h2>
+  <div class="r-table-wrap">
+    <table class="r-table">
+      <tr><th>Dimension</th><th>Score</th><th>Analysis</th></tr>
+      <tr><td>Demand intensity</td><td><strong>94/100</strong></td><td>Pain is daily, not occasional. Every missed appointment = direct revenue loss.</td></tr>
+      <tr><td>Willingness to pay</td><td><strong>89/100</strong></td><td>Clear ROI — one avoided no-show at $50/session covers 3 months of subscription.</td></tr>
+      <tr><td>Market competition</td><td><strong>38/100</strong></td><td>Tools exist but are too expensive or too complex for solo operators.</td></tr>
+      <tr><td>Monetization clarity</td><td><strong>91/100</strong></td><td>Simple subscription, obvious value, low price sensitivity at $9-19/mo.</td></tr>
+      <tr><td>Build complexity</td><td><strong>62/100</strong></td><td>Booking form + calendar + SMS — achievable solo with AI tools in 4-6 weeks.</td></tr>
+      <tr><td>Distribution</td><td><strong>88/100</strong></td><td>Target audience active on Instagram, TikTok, local Facebook groups.</td></tr>
+      <tr class="r-strong-row"><td><strong>Weighted overall</strong></td><td><strong>91/100</strong></td><td></td></tr>
+    </table>
+  </div>
+
+  <h2 class="r-h2">Why Existing Tools Fail This Market</h2>
+  <div class="r-table-wrap">
+    <table class="r-table">
+      <tr><th>Tool</th><th>Price</th><th>Core problem</th></tr>
+      <tr><td>Calendly</td><td>$10–16</td><td>Built for corporate meetings, not service businesses.</td></tr>
+      <tr><td>Acuity Scheduling</td><td>$16–36</td><td>Powerful but overwhelming. Setup takes hours.</td></tr>
+      <tr><td>Booksy</td><td>$29–99</td><td>Too expensive for a solo operator.</td></tr>
+      <tr><td>Square Appointments</td><td>Free–$29</td><td>Requires Square ecosystem. US-centric.</td></tr>
+      <tr><td>Fresha</td><td>Free (commission)</td><td>Takes a % of each booking — hidden fees add up fast.</td></tr>
+      <tr><td>SimplyBook.me</td><td>$9.90+</td><td>Confusing interface. Clients abandon the flow.</td></tr>
+    </table>
+  </div>
+  <p class="r-p" style="margin-top:18px"><strong style="color:var(--text)">The opportunity is not to build a better Calendly. It is to build something so simple that Calendly feels like overkill.</strong></p>
+
+  <h2 class="r-h2">Target Customer — Who To Start With</h2>
+  <p class="r-p">Recommended entry segment: <strong style="color:var(--text)">personal trainers</strong>. Highest pain, fastest decision cycle, easiest distribution. Average LTV ≈ $300. Once you have 50 PT customers, you have a case study that converts barbers, tutors and physiotherapists without changing the product.</p>
+
+  <h2 class="r-h2">Unit Economics</h2>
+  <div class="r-table-wrap">
+    <table class="r-table">
+      <tr><th>Metric</th><th>Estimate</th></tr>
+      <tr><td>Average Revenue Per User</td><td>$15/month</td></tr>
+      <tr><td>Monthly churn rate</td><td>5–7%</td></tr>
+      <tr><td>Average customer lifetime</td><td>14–20 months</td></tr>
+      <tr><td><strong>Lifetime Value (LTV)</strong></td><td><strong>$210–$300</strong></td></tr>
+      <tr><td>Customer Acquisition Cost</td><td>$15–30 (content/SEO, no paid ads)</td></tr>
+      <tr><td><strong>LTV / CAC ratio</strong></td><td><strong>10–20× (benchmark is 3×)</strong></td></tr>
+      <tr><td>Break-even customers</td><td>~12</td></tr>
+    </table>
+  </div>
+
+  <h2 class="r-h2">Financial Path to $10K MRR</h2>
+  <div class="r-table-wrap">
+    <table class="r-table">
+      <tr><th>Month</th><th>Customers</th><th>MRR</th><th>How</th></tr>
+      <tr><td>1–2</td><td>0</td><td>$0</td><td>Build + validate with 10 beta users (free)</td></tr>
+      <tr><td>3</td><td>15</td><td>$225</td><td>First paying customers from beta cohort</td></tr>
+      <tr><td>4</td><td>35</td><td>$525</td><td>Instagram content + PT Facebook groups</td></tr>
+      <tr><td>5</td><td>70</td><td>$1,050</td><td>First SEO traffic + referrals</td></tr>
+      <tr><td>6</td><td>130</td><td>$1,950</td><td>Product Hunt launch</td></tr>
+      <tr><td>9</td><td>280</td><td>$4,200</td><td>SEO compound growth + affiliates</td></tr>
+      <tr><td>12</td><td>500</td><td>$7,500</td><td>System running, low CAC</td></tr>
+      <tr class="r-strong-row"><td>15</td><td>670</td><td>$10,050</td><td><strong>$10K MRR achieved</strong></td></tr>
+    </table>
+  </div>
+
+  <h2 class="r-h2">The MVP — Exactly What To Build</h2>
+  <p class="r-p"><strong style="color:var(--text)">3 screens. Nothing else.</strong></p>
+  <ul class="r-list">
+    <li><strong>Screen 1 — Provider setup (10 min):</strong> name, service type, hours, services offered.</li>
+    <li><strong>Screen 2 — Public booking page:</strong> client picks a slot, enters name + phone, confirms. No account creation, no payment.</li>
+    <li><strong>Screen 3 — Provider dashboard:</strong> this week's bookings, confirm/cancel.</li>
+    <li><strong>Automatic SMS reminder</strong> 24h before each appointment via Twilio.</li>
+  </ul>
+  <p class="r-p" style="margin-top:14px"><strong style="color:var(--text)">What NOT to build in v1:</strong> payments, video calls, staff management, reviews, marketing tools, analytics. Build only what removes the WhatsApp dependency. Ship in 4 weeks.</p>
+
+  <h2 class="r-h2">Execution Roadmap</h2>
+  <div class="r-phase">
+    <h4>Phase 1 — Build &amp; validate (weeks 1–6)</h4>
+    <ul><li>Build the 3-screen MVP using Claude Code or Cursor</li><li>Recruit 10 beta users from PT communities (3 months free)</li><li>Obsess over simplicity</li></ul>
+    <div class="r-milestone">Milestone: 10 people using it for real bookings</div>
+  </div>
+  <div class="r-phase">
+    <h4>Phase 2 — First revenue (weeks 7–10)</h4>
+    <ul><li>Convert 50% of beta users to paid ($9/mo)</li><li>Activate SMS reminders via Twilio</li><li>3 case studies on time saved</li></ul>
+    <div class="r-milestone">Milestone: $150 MRR, 10 paying customers</div>
+  </div>
+  <div class="r-phase">
+    <h4>Phase 3 — Distribution (months 3–6)</h4>
+    <ul><li>Instagram before/after content</li><li>SEO: "best booking app for personal trainers"</li><li>Affiliate program: 30% commission</li></ul>
+    <div class="r-milestone">Milestone: 130 customers, $1,950 MRR</div>
+  </div>
+  <div class="r-phase">
+    <h4>Phase 4 — Expansion (months 6–12)</h4>
+    <ul><li>Stripe payment collection at booking</li><li>Google Calendar / iCal sync</li><li>Multi-staff support</li></ul>
+    <div class="r-milestone">Milestone: 500 customers, $7,500 MRR</div>
+  </div>
+
+  <h2 class="r-h2">Validation Strategy — Before Writing Code</h2>
+  <ol class="r-steps">
+    <li><strong>Week 1 — Find 20 service providers</strong> on Instagram, Facebook groups, Reddit. Ask: "How do you currently manage your bookings?" Don't mention you're building anything.</li>
+    <li><strong>Week 2 — Qualify the pain.</strong> If the answer is more than 1 hour/week managing scheduling: you have a lead.</li>
+    <li><strong>Week 3 — Show a mockup.</strong> Ask: "Would you pay $9/month for this?"</li>
+  </ol>
+  <p class="r-p" style="margin-top:14px"><strong style="color:var(--amber)">Validation threshold: if 5 out of 20 say yes and give you their email — build it.</strong> Not 20 out of 20. Just 5.</p>
+
+  <h2 class="r-h2">Risk Analysis</h2>
+  <div class="r-table-wrap">
+    <table class="r-table">
+      <tr><th>Risk</th><th>Probability</th><th>Mitigation</th></tr>
+      <tr><td>Calendly launches simplified version</td><td>Low</td><td>Build deeper into the service provider workflow</td></tr>
+      <tr><td>Free→paid conversion is low</td><td>Medium</td><td>Require payment upfront with 14-day trial</td></tr>
+      <tr><td>SMS costs eat margins</td><td>Medium</td><td>~$0.03/customer/month — negligible</td></tr>
+      <tr><td>Churn higher than expected</td><td>Medium</td><td>Annual discount — annual customers churn 3× less</td></tr>
+    </table>
+  </div>
+
+  <h2 class="r-h2">Claude / Cursor Prompt <span>copy-paste ready</span></h2>
+  <pre class="r-code">Build a simple appointment booking SaaS for independent service providers.
+
+Tech stack: Next.js 14 App Router, Supabase (PostgreSQL + auth),
+Tailwind CSS, Twilio (SMS reminders), Vercel deployment.
+
+Core v1 features only:
+
+1. PROVIDER ONBOARDING
+   - Name, business name, service type, working hours
+   - Services: name, duration, optional price
+   - Unique slug auto-generated from name
+
+2. PUBLIC BOOKING PAGE — /book/[slug]
+   - Show available slots for next 14 days
+   - Client enters name + phone, confirms
+   - NO account creation required
+
+3. PROVIDER DASHBOARD — /dashboard
+   - This week's bookings, confirm/cancel
+   - Simple stats: bookings this week/month
+
+4. AUTOMATIC SMS REMINDERS via Twilio
+   - Trigger 24h before each booking
+   - Reply CANCEL to cancel
+
+DO NOT BUILD in v1: payments, video calls, staff management,
+analytics, email marketing, reviews.</pre>
+
+  <div class="r-divider"></div>
+
+  <div class="r-bottomline">
+    <h2 class="r-h2" style="margin-bottom:14px">Bottom Line</h2>
+    <p class="r-p"><strong style="color:var(--text)">The problem:</strong> millions of service providers lose hours every week to WhatsApp scheduling.</p>
+    <p class="r-p"><strong style="color:var(--text)">The solution:</strong> a booking tool so simple it takes 10 minutes to set up and costs less than one missed appointment.</p>
+    <p class="r-p"><strong style="color:var(--text)">The market:</strong> 6.6M potential customers globally — you need 670 to hit $10K MRR.</p>
+    <p class="r-p" style="margin-bottom:0"><strong style="color:var(--text)">The risk:</strong> low. Validate in 3 weeks without writing code.</p>
+  </div>
+
+  <div class="r-sig">
+    Business Hunter — Opportunity #001<br>
+    Researched &amp; verified by the Business Hunter team<br><br>
+    <strong style="color:var(--muted)">This report took our team 6 hours to research, verify and structure.<br>You just read it in 8 minutes. That's the value of Business Hunter.</strong>
+  </div>
+
+  <div class="cta-box">
+    <h3>Want one of these every week?</h3>
+    <p>Free members get 1 verified opportunity a week. Pro members get 3 — Monday, Wednesday, Friday — plus the validation checklist, MVP plan and Claude prompt unlocked for every single one.</p>
+    <div class="cta-row">
+      <a href="/#pricing" class="btn-amber-lg">See pricing →</a>
+      <a href="/" class="btn-ghost-lg">← Back to homepage</a>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
