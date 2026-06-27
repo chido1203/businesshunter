@@ -567,14 +567,9 @@
       return;
     }
 
-    // Check free limit
+    // Check free limit — 1 report total (not per month)
     if (userProfile && userProfile.plan !== 'pro') {
-      const now = new Date();
-      const resetAt = new Date(userProfile.month_reset_at);
-      const sameMonth = now.getMonth() === resetAt.getMonth() && now.getFullYear() === resetAt.getFullYear();
-      const usedThisMonth = sameMonth ? (userProfile.reports_this_month || 0) : 0;
-
-      if (usedThisMonth >= 1) {
+      if ((userProfile.reports_this_month || 0) >= 1) {
         show('paywall');
         return;
       }
@@ -657,16 +652,10 @@
             content: job.report
           }).eq('job_id', jobId);
 
-          // Update usage count
+          // Update usage count (lifetime total)
           if (userProfile && userProfile.plan !== 'pro') {
-            const now = new Date();
-            const resetAt = new Date(userProfile.month_reset_at);
-            const sameMonth = now.getMonth() === resetAt.getMonth() && now.getFullYear() === resetAt.getFullYear();
-            const newCount = sameMonth ? (userProfile.reports_this_month || 0) + 1 : 1;
-            await sb.from('profiles').update({
-              reports_this_month: newCount,
-              month_reset_at: sameMonth ? userProfile.month_reset_at : now.toISOString()
-            }).eq('id', currentUser.id);
+            const newCount = (userProfile.reports_this_month || 0) + 1;
+            await sb.from('profiles').update({ reports_this_month: newCount }).eq('id', currentUser.id);
             if (userProfile) userProfile.reports_this_month = newCount;
           }
 
