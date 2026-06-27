@@ -10,6 +10,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3KT0FE22TG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3KT0FE22TG');
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -395,7 +402,13 @@
       .hero h1 { font-size: 1.6rem; }
       .input-row { flex-direction: column; }
       .btn-generate { width: 100%; }
-      .report-content { padding: 24px 20px; }
+      .report-content { padding: 24px 16px; }
+      /* Report tables scroll on mobile */
+      .report-content table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; font-size: 0.82rem; }
+      .report-content pre { overflow-x: auto; font-size: 0.8rem; }
+      .report-content h1 { font-size: 1.3rem; }
+      .report-content h2 { font-size: 1.1rem; }
+      .report-content h3 { font-size: 1rem; }
     }
   </style>
 </head>
