@@ -1760,6 +1760,12 @@
   </style>
 </head>
 <body>
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  const sb = createClient('https://praozoztocdickeldzxd.supabase.co', 'sb_publishable_aTOcO__YL0wlq5qXX5-EYA_Y-KzvBrn');
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) window.location.replace('/dashboard/');
+</script>
 
 <!-- NAV -->
 <nav>
