@@ -302,7 +302,8 @@
     clearMessages();
   }
 
-  function showError(msg) {
+  function showError(err) {
+    const msg = (typeof err === 'string') ? err : (err?.message || err?.error_description || 'Something went wrong. Please try again.');
     const el = document.getElementById('msg-error');
     el.textContent = msg;
     el.classList.add('show');
@@ -334,7 +335,7 @@
     const { error } = await sb.auth.signInWithPassword({ email, password });
 
     if (error) {
-      showError(error.message);
+      showError(error);
       btn.disabled = false;
       btn.textContent = 'Sign In →';
     } else {
@@ -355,7 +356,7 @@
     const { error } = await sb.auth.signUp({ email, password });
 
     if (error) {
-      showError(error.message);
+      showError(error);
       btn.disabled = false;
       btn.textContent = 'Create Free Account →';
     } else {
