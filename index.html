@@ -1762,10 +1762,11 @@
 <body>
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-  if (!window.location.hash) {
-    const sb = createClient('https://praozoztocdickeldzxd.supabase.co', 'sb_publishable_aTOcO__YL0wlq5qXX5-EYA_Y-KzvBrn');
-    const { data: { session } } = await sb.auth.getSession();
-    if (session) window.location.replace('/dashboard/');
+  const sb = createClient('https://praozoztocdickeldzxd.supabase.co', 'sb_publishable_aTOcO__YL0wlq5qXX5-EYA_Y-KzvBrn');
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    const btn = document.getElementById('nav-signin-btn');
+    if (btn) { btn.textContent = 'Open Dashboard →'; btn.href = '/dashboard/'; }
   }
 </script>
 
@@ -1783,7 +1784,7 @@
     <a href="#faq">FAQ</a>
   </div>
   <div class="nav-right">
-    <a href="/dashboard/login.html" style="color:var(--muted);font-size:0.88rem;font-weight:500;text-decoration:none;padding:8px 14px;border:1px solid var(--border);border-radius:8px;transition:all 0.2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Sign In</a>
+    <a id="nav-signin-btn" href="/dashboard/login.html" style="color:var(--muted);font-size:0.88rem;font-weight:500;text-decoration:none;padding:8px 14px;border:1px solid var(--border);border-radius:8px;transition:all 0.2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Sign In</a>
     <a href="#pricing" class="btn-amber">Get early access</a>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
