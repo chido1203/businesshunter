@@ -520,6 +520,29 @@
         badge.classList.add('pro');
       }
     }
+
+    // Resume pending job or show last completed report
+    const pending = localStorage.getItem('bh_pending_job');
+    if (pending) {
+      try {
+        const { job_id, report_id, topic } = JSON.parse(pending);
+        // Check if already done in Supabase
+        const { data: rep } = await sb.from('reports').select('*').eq('job_id', job_id).single();
+        if (rep && rep.status === 'done' && rep.content) {
+          localStorage.removeItem('bh_pending_job');
+          showReport(rep.topic, rep.content, rep.id);
+        } else {
+          // Still pending — resume polling
+          document.getElementById('topic-input').value = topic || '';
+          show('progress');
+          document.getElementById('progress-topic').textContent = '"' + (topic || '') + '"';
+          setProgress(8, 0);
+          pollForResult(job_id, report_id);
+        }
+      } catch (e) {
+        localStorage.removeItem('bh_pending_job');
+      }
+    }
   }
 
   async function signOut() {
@@ -575,6 +598,9 @@
         job_id,
         status: 'pending'
       }).select().single();
+
+      // Save to localStorage so refresh can resume
+      localStorage.setItem('bh_pending_job', JSON.stringify({ job_id, report_id: savedReport?.id, topic }));
 
       // Poll for result
       pollForResult(job_id, savedReport?.id);
@@ -640,10 +666,12 @@
             if (userProfile) userProfile.reports_this_month = newCount;
           }
 
-          showReport(job.topic || document.getElementById('topic-input').value, job.report, savedReport?.id);
+          localStorage.removeItem('bh_pending_job');
+          showReport(job.topic || document.getElementById('topic-input').value, job.report, reportId);
 
         } else if (job.status === 'error') {
           clearInterval(pollInterval);
+          localStorage.removeItem('bh_pending_job');
           show('form');
           document.getElementById('btn-generate').disabled = false;
           alert('The report generation failed. Please try again.');
