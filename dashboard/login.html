@@ -353,12 +353,14 @@
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
 
-    const { error } = await sb.auth.signUp({ email, password });
+    const { data, error } = await sb.auth.signUp({ email, password });
 
     if (error) {
       showError(error);
       btn.disabled = false;
       btn.textContent = 'Create Free Account →';
+    } else if (data.session) {
+      window.location.href = '/dashboard/';
     } else {
       showSuccess('✓ Check your email to confirm your account, then sign in.');
       btn.disabled = false;
