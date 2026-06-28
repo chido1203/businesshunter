@@ -1773,6 +1773,27 @@
       h1 { font-size: 2rem; }
       .hero-badge { font-size: 0.7rem; }
     }
+    /* Email capture */
+    .email-capture-wrap { padding: 64px 20px; }
+    .email-capture-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .capture-input {
+      flex: 1; min-width: 240px; max-width: 340px;
+      background: var(--s2); border: 1px solid var(--s3);
+      color: var(--text); border-radius: 8px;
+      padding: 12px 16px; font-size: 0.95rem; font-family: 'Inter', sans-serif;
+      outline: none; transition: border-color 0.2s;
+    }
+    .capture-input:focus { border-color: var(--amber); }
+    .capture-input::placeholder { color: var(--muted); }
+    .capture-btn {
+      background: var(--amber); color: #000; border: none;
+      border-radius: 8px; padding: 12px 22px;
+      font-weight: 700; font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      cursor: pointer; white-space: nowrap; transition: background 0.2s;
+    }
+    .capture-btn:hover { background: var(--amber2); }
+    .capture-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .capture-success { color: #4ade80; font-weight: 600; font-size: 1rem; margin-top: 16px; }
   </style>
 </head>
 <body>
@@ -1939,6 +1960,21 @@
         <span class="stat-desc">New opps per week (Pro)</span>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- EMAIL CAPTURE -->
+<section class="section email-capture-wrap">
+  <div class="section-inner" style="max-width:620px;text-align:center;">
+    <p class="overline" style="color:var(--accent);">FREE WEEKLY SIGNAL</p>
+    <h2 class="h2" style="margin-bottom:12px;">Get 1 verified opportunity/week</h2>
+    <p style="color:var(--muted);margin-bottom:32px;font-size:1rem;">No credit card. No account. Real demand signals straight to your inbox.</p>
+    <form id="email-capture-form" class="email-capture-form">
+      <input type="email" id="capture-email" class="capture-input" placeholder="your@email.com" required autocomplete="email">
+      <button type="submit" id="capture-btn" class="capture-btn">Send me opportunities →</button>
+    </form>
+    <p id="capture-success" class="capture-success" style="display:none;">✓ You're in! First opportunity lands in your inbox this week.</p>
+    <p style="color:var(--muted);font-size:0.78rem;margin-top:14px;">Join 0 builders already tracking demand. Unsubscribe anytime.</p>
   </div>
 </section>
 
@@ -2876,6 +2912,36 @@
       ? 'Billed annually. Save $69 vs monthly — locked in forever at early bird price.'
       : '🔒 Early bird — locked at $19 forever. Goes up to $49 at 25 subscribers.';
   }
+
+  // Email capture
+  document.getElementById('email-capture-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('capture-email').value;
+    const btn = document.getElementById('capture-btn');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/discontrolshop@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          _subject: 'New Business Hunter free subscriber',
+          _captcha: 'false',
+          source: 'landing-email-capture'
+        })
+      });
+      if (res.ok) {
+        document.getElementById('email-capture-form').style.display = 'none';
+        document.getElementById('capture-success').style.display = 'block';
+      } else {
+        throw new Error('failed');
+      }
+    } catch {
+      btn.textContent = 'Send me opportunities →';
+      btn.disabled = false;
+    }
+  });
 
 </script>
 </body>
