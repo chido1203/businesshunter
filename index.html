@@ -1794,6 +1794,28 @@
     .capture-btn:hover { background: var(--amber2); }
     .capture-btn:disabled { opacity: 0.6; cursor: not-allowed; }
     .capture-success { color: #4ade80; font-weight: 600; font-size: 1rem; margin-top: 16px; }
+    /* Niche board */
+    .niche-board-wrap { padding: 64px 20px; }
+    .niche-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+    .niche-list { display: flex; flex-direction: column; gap: 10px; }
+    .niche-card {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--s2); border: 1px solid var(--s3);
+      border-radius: 10px; padding: 14px 18px; gap: 12px;
+      transition: border-color 0.2s;
+    }
+    .niche-card:hover { border-color: var(--amber); }
+    .niche-text { flex: 1; font-size: 0.95rem; color: var(--text); }
+    .niche-vote {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--s3); border: none; border-radius: 6px;
+      padding: 6px 12px; cursor: pointer; color: var(--text);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .niche-vote:hover { background: var(--amber); color: #000; }
+    .niche-loading { color: var(--muted); text-align: center; padding: 20px; }
+    .niche-empty { color: var(--muted); text-align: center; padding: 20px; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -1805,6 +1827,47 @@
     const btn = document.getElementById('nav-signin-btn');
     if (btn) { btn.textContent = 'Open Dashboard →'; btn.href = '/dashboard/'; }
   }
+
+  // Niche board
+  async function loadNiches() {
+    const list = document.getElementById('niche-list');
+    if (!list) return;
+    const { data, error } = await sb.from('public_niches').select('*').order('votes', { ascending: false }).limit(20);
+    if (error || !data) { list.innerHTML = '<div class="niche-empty">Could not load niches.</div>'; return; }
+    if (data.length === 0) { list.innerHTML = '<div class="niche-empty">Be the first to add your niche!</div>'; return; }
+    list.innerHTML = data.map(n => `
+      <div class="niche-card" data-id="${n.id}">
+        <span class="niche-text">${n.niche}</span>
+        <button class="niche-vote" onclick="voteNiche(${n.id}, this)">▲ ${n.votes}</button>
+      </div>`).join('');
+  }
+
+  window.voteNiche = async function(id, btn) {
+    btn.disabled = true;
+    const { data } = await sb.from('public_niches').select('votes').eq('id', id).single();
+    if (data) {
+      await sb.from('public_niches').update({ votes: data.votes + 1 }).eq('id', id);
+      btn.textContent = `▲ ${data.votes + 1}`;
+    }
+    btn.disabled = false;
+  };
+
+  const nicheForm = document.getElementById('niche-form');
+  if (nicheForm) {
+    nicheForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const input = document.getElementById('niche-input');
+      const btn = document.getElementById('niche-btn');
+      const val = input.value.trim();
+      if (!val) return;
+      btn.textContent = 'Adding…'; btn.disabled = true;
+      const { error } = await sb.from('public_niches').insert({ niche: val });
+      btn.textContent = 'Add it →'; btn.disabled = false;
+      if (!error) { input.value = ''; loadNiches(); }
+    });
+  }
+
+  loadNiches();
 </script>
 
 <!-- NAV -->
@@ -2592,6 +2655,24 @@
         <div class="builder-status" style="color:var(--purple)">Huge TAM · Easy MVP</div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- NICHE BOARD -->
+<section class="section niche-board-wrap">
+  <div class="section-inner" style="max-width:720px;">
+    <p class="overline" style="color:var(--accent);text-align:center;">COMMUNITY BOARD</p>
+    <h2 class="h2" style="text-align:center;margin-bottom:8px;">What are builders researching?</h2>
+    <p style="color:var(--muted);text-align:center;margin-bottom:32px;font-size:1rem;">Add your niche and see what others are exploring. Vote for the ones you'd pay for.</p>
+
+    <form id="niche-form" class="niche-form">
+      <input type="text" id="niche-input" class="capture-input" placeholder="e.g. AI invoice tool for freelancers" maxlength="80" required autocomplete="off">
+      <button type="submit" class="capture-btn" id="niche-btn">Add it →</button>
+    </form>
+
+    <div id="niche-list" class="niche-list">
+      <div class="niche-loading">Loading niches…</div>
     </div>
   </div>
 </section>
