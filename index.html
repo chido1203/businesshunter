@@ -3018,50 +3018,46 @@
   }
 
   // Archive search
-  let allOpps = [];
-  fetch('/opportunities.json').then(r => r.json()).then(data => {
-    allOpps = data;
-    document.getElementById('opp-total').textContent = data.length;
-  });
+  fetch('/opportunities.json').then(r => r.json()).then(allOpps => {
+    const totalEl      = document.getElementById('opp-total');
+    const archiveSearch = document.getElementById('archive-search');
+    const resultsGrid  = document.getElementById('opp-search-results');
+    const countEl      = document.getElementById('archive-search-count');
+    if (totalEl) totalEl.textContent = allOpps.length;
 
-  const archiveSearch = document.getElementById('archive-search');
-  const resultsGrid   = document.getElementById('opp-search-results');
-  const countEl       = document.getElementById('archive-search-count');
-
-  function renderResults(opps) {
-    if (opps.length === 0) {
-      resultsGrid.innerHTML = '<div class="opp-no-results">No matches — try a different keyword.</div>';
-    } else {
-      resultsGrid.innerHTML = opps.map(o => `
-        <div class="opp-result-card">
-          <div class="opp-result-header">
-            <span class="opp-result-num">#${String(o.number).padStart(3,'0')} · ${o.category}</span>
-            <span class="opp-result-score">${o.score}</span>
-          </div>
-          <div class="opp-result-title">${o.title}</div>
-          <div class="opp-result-tags">${o.tags.map(t => `<span class="opp-result-tag">${t}</span>`).join('')}</div>
-        </div>`).join('');
+    function renderResults(opps) {
+      resultsGrid.innerHTML = opps.length === 0
+        ? '<div class="opp-no-results">No matches — try a different keyword.</div>'
+        : opps.map(o => `
+          <div class="opp-result-card">
+            <div class="opp-result-header">
+              <span class="opp-result-num">#${String(o.number).padStart(3,'0')} · ${o.category}</span>
+              <span class="opp-result-score">${o.score}</span>
+            </div>
+            <div class="opp-result-title">${o.title}</div>
+            <div class="opp-result-tags">${o.tags.map(t => `<span class="opp-result-tag">${t}</span>`).join('')}</div>
+          </div>`).join('');
     }
-  }
 
-  if (archiveSearch) {
-    archiveSearch.addEventListener('input', function() {
-      const q = this.value.trim().toLowerCase();
-      if (!q) {
-        resultsGrid.style.display = 'none';
-        countEl.innerHTML = `Showing all <strong>${allOpps.length}</strong> opportunities`;
-        return;
-      }
-      const filtered = allOpps.filter(o =>
-        o.title.toLowerCase().includes(q) ||
-        o.category.toLowerCase().includes(q) ||
-        o.tags.some(t => t.toLowerCase().includes(q))
-      );
-      resultsGrid.style.display = 'grid';
-      countEl.innerHTML = `Showing <strong>${filtered.length}</strong> of ${allOpps.length} opportunities`;
-      renderResults(filtered);
-    });
-  }
+    if (archiveSearch) {
+      archiveSearch.addEventListener('input', function() {
+        const q = this.value.trim().toLowerCase();
+        if (!q) {
+          resultsGrid.style.display = 'none';
+          countEl.innerHTML = `Showing all <strong>${allOpps.length}</strong> opportunities`;
+          return;
+        }
+        const filtered = allOpps.filter(o =>
+          o.title.toLowerCase().includes(q) ||
+          o.category.toLowerCase().includes(q) ||
+          o.tags.some(t => t.toLowerCase().includes(q))
+        );
+        resultsGrid.style.display = 'grid';
+        countEl.innerHTML = `Showing <strong>${filtered.length}</strong> of ${allOpps.length} — <a href="/dashboard/login.html" style="color:var(--amber);text-decoration:none;">sign in to unlock full reports →</a>`;
+        renderResults(filtered);
+      });
+    }
+  });
 
   // Email capture
   document.getElementById('email-capture-form').addEventListener('submit', async function(e) {
