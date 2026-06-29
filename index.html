@@ -3067,13 +3067,17 @@
 
   // Subscriber counter
   (async () => {
-    const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true });
-    const total = count || 0;
-    const spots = Math.max(0, 25 - total);
     const usersEl = document.getElementById('counter-users');
     const spotsEl = document.getElementById('counter-spots');
-    if (usersEl) usersEl.textContent = total;
-    if (spotsEl) spotsEl.textContent = spots;
+    if (!usersEl || !spotsEl) return;
+    let total = 1; // baseline: at least the founder
+    try {
+      const { count, error } = await sb.from('profiles').select('*', { count: 'exact', head: true });
+      if (!error && count !== null) total = count;
+    } catch {}
+    const spots = Math.max(0, 25 - total);
+    usersEl.textContent = total;
+    spotsEl.textContent = spots;
   })();
 
   // Archive search
