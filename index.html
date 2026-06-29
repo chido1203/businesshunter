@@ -1773,6 +1773,21 @@
       h1 { font-size: 2rem; }
       .hero-badge { font-size: 0.7rem; }
     }
+    @media (max-width: 900px) {
+      .archive-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .archive-grid { grid-template-columns: 1fr; }
+      .opp-results-grid { grid-template-columns: 1fr; }
+      .email-capture-form { flex-direction: column; }
+      .capture-input { max-width: 100%; min-width: unset; }
+      .capture-btn { width: 100%; text-align: center; }
+      .niche-form { flex-direction: column; }
+      .niche-board-wrap { padding: 48px 16px; }
+      .email-capture-wrap { padding: 48px 16px; }
+      .counter-wrap { padding: 48px 16px; }
+      .counter-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
     /* Email capture */
     .email-capture-wrap { padding: 64px 20px; }
     .email-capture-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
@@ -1794,6 +1809,13 @@
     .capture-btn:hover { background: var(--amber2); }
     .capture-btn:disabled { opacity: 0.6; cursor: not-allowed; }
     .capture-success { color: #4ade80; font-weight: 600; font-size: 1rem; margin-top: 16px; }
+    /* Subscriber counter */
+    .counter-wrap { padding: 64px 20px; background: var(--s1); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .counter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; max-width: 720px; margin: 40px auto 0; }
+    .counter-cell { text-align: center; padding: 24px 16px; border-right: 1px solid var(--border); }
+    .counter-cell:last-child { border-right: none; }
+    .counter-big { font-size: 2.8rem; font-weight: 900; color: var(--amber); line-height: 1; display: block; }
+    .counter-label { font-size: 0.8rem; color: var(--muted); margin-top: 6px; display: block; }
     /* Archive search */
     .archive-search-wrap { margin: 28px 0 20px; }
     .opp-results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 32px; }
@@ -2474,6 +2496,32 @@
   </div>
 </section>
 
+<!-- SUBSCRIBER COUNTER -->
+<section class="counter-wrap">
+  <div class="section-inner" style="text-align:center;">
+    <p class="overline" style="color:var(--accent);">EARLY BIRD PROGRESS</p>
+    <h2 class="h2" style="margin-bottom:8px;">Growing every week</h2>
+    <p style="color:var(--muted);font-size:1rem;max-width:480px;margin:0 auto;">Early bird price ($19/mo) locks in forever. Goes to $49 when we hit 25 paid subscribers.</p>
+    <div class="counter-grid">
+      <div class="counter-cell">
+        <span class="counter-big" id="counter-users">—</span>
+        <span class="counter-label">builders registered</span>
+      </div>
+      <div class="counter-cell">
+        <span class="counter-big">25</span>
+        <span class="counter-label">early bird spots total</span>
+      </div>
+      <div class="counter-cell">
+        <span class="counter-big" id="counter-spots">—</span>
+        <span class="counter-label">spots left at $19</span>
+      </div>
+    </div>
+    <div style="margin-top:32px;">
+      <a href="https://businesshunter.lemonsqueezy.com/checkout/buy/ca8b0230-aa2a-4f44-be2b-f65acd4371a1" class="btn-amber" style="padding:13px 32px;font-size:0.95rem;">Lock in $19 before it's gone →</a>
+    </div>
+  </div>
+</section>
+
 <!-- SCORE CALCULATOR -->
 <section class="section" id="calculator" style="background:var(--s1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding-top:80px;padding-bottom:80px;">
   <div class="section-inner">
@@ -3016,6 +3064,17 @@
       ? 'Billed annually. Save $69 vs monthly — locked in forever at early bird price.'
       : '🔒 Early bird — locked at $19 forever. Goes up to $49 at 25 subscribers.';
   }
+
+  // Subscriber counter
+  (async () => {
+    const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true });
+    const total = count || 0;
+    const spots = Math.max(0, 25 - total);
+    const usersEl = document.getElementById('counter-users');
+    const spotsEl = document.getElementById('counter-spots');
+    if (usersEl) usersEl.textContent = total;
+    if (spotsEl) spotsEl.textContent = spots;
+  })();
 
   // Archive search
   fetch('/opportunities.json').then(r => r.json()).then(allOpps => {
