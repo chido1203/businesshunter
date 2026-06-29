@@ -1,0 +1,12 @@
+[
+  { "number": 1,   "title": "The dead-simple booking tool independent service providers are begging for", "score": 91, "category": "SaaS",      "tags": ["SaaS","B2B","Booking"] },
+  { "number": 2,   "title": "Turn a 1-star review into the reason the next customer chooses you",        "score": 87, "category": "SaaS",      "tags": ["SaaS","Local","Reviews"] },
+  { "number": 3,   "title": "Turn a freelancer's rough notes into a winning proposal in 30 seconds",     "score": 89, "category": "SaaS",      "tags": ["SaaS","Freelance","AI"] },
+  { "number": 241, "title": "Stripe revenue analytics lite",                                             "score": 76, "category": "SaaS",      "tags": ["SaaS","Analytics","Stripe"] },
+  { "number": 242, "title": "Local SEO dashboard for agencies",                                         "score": 82, "category": "SaaS",      "tags": ["SaaS","Local","Agency","SEO"] },
+  { "number": 243, "title": "B2B cold email personalizer",                                               "score": 88, "category": "B2B",       "tags": ["B2B","Sales","Email","AI"] },
+  { "number": 244, "title": "Automated social proof widgets",                                            "score": 79, "category": "Marketing", "tags": ["SaaS","Marketing","Widgets"] },
+  { "number": 245, "title": "Niche job board for AI engineers",                                         "score": 84, "category": "Job Board", "tags": ["AI","Jobs","Niche"] },
+  { "number": 246, "title": "AI receipt scanner for freelancers",                                        "score": 87, "category": "AI",        "tags": ["AI","Freelance","Receipts"] },
+  { "number": 247, "title": "Gym retention automation SaaS",                                            "score": 91, "category": "SaaS",      "tags": ["SaaS","Fitness","Automation"] }
+]
